@@ -185,15 +185,16 @@ nav a:hover { color: var(--color-medium); }
 }
 
 .hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px 48px;
   max-width: 820px;
   margin: 45px auto 0 auto;
   padding-top: 30px;
   border-top: 1px solid rgba(18, 84, 79, 0.12);
 }
-.stat-item { text-align: center; }
+.stat-item { text-align: center; min-width: 140px; }
 .stat-number {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 26px;
@@ -469,7 +470,7 @@ footer {
    ========================================================================== */
 @media (max-width: 768px) {
   nav { display: none; }
-  .hero-stats { grid-template-columns: 1fr; gap: 16px; }
+  .hero-stats { flex-direction: column; gap: 16px; }
   .grid-apps { grid-template-columns: 1fr; }
 }
 
