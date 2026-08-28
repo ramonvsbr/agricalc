@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriCalc — Calculadoras e Ferramentas Agronômicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">🌱 AgriCalc<span></span></a>
+      <nav>
+        <ul>
+          <li><a href="#solo">Solo & Nutrição</a></li>
+          <li><a href="#fitossanidade">Pulverização</a></li>
+          <li><a href="#graos">Sementes & Colheita</a></li>
+          <li><a href="#gestao">Gestão</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero-tag">⚡ Ferramentas de Precisão Agronômica</span>
+      <h1>Decisões rápidas e precisas no campo.</h1>
+      <p>Conjunto de calculadoras e simuladores agronômicos desenvolvidos para apoiar produtores, consultores e engenheiros agrônomos.</p>
+
+      <!-- Busca Centralizada -->
+      <div class="search-wrapper">
+        <div class="search-box">
+          <input type="text" id="searchInput" onkeyup="filtrarApps()" placeholder="Buscar ferramenta (ex: adubação, pulverizador, estande)...">
+          <button class="search-btn">Buscar</button>
+        </div>
+
+        <!-- Atalhos Rápidos (Chips) -->
+        <div class="quick-filters">
+          <span class="chip" onclick="filtrarChip('adubação')">🧪 Adubação</span>
+          <span class="chip" onclick="filtrarChip('calagem')">⛰️ Calagem</span>
+          <span class="chip" onclick="filtrarChip('pulverizador')">🚜 Pulverização</span>
+          <span class="chip" onclick="filtrarChip('semeadura')">🌱 Semeadura</span>
+          <span class="chip" onclick="filtrarChip('produtividade')">⚖️ Produtividade</span>
+        </div>
+      </div>
+
+      <!-- Barra de Indicadores/Métricas -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">8+</span>
+          <span class="stat-label">Calculadoras Específicas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Gratuito e Sem Cadastro</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Oficial</span>
+          <span class="stat-label">Tabelas e Fórmulas Agronômicas</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="container">
+
+    <!-- SOLO E NUTRIÇÃO -->
+    <h2 class="section-title" id="solo">Solo e Adubação</h2>
+    <div class="grid-apps">
+
+      <a href="apps/adubacao.html" class="app-card">
+        <div>
+          <div class="app-icon">🧪</div>
+          <h3>Calculadora de Adubação e Calagem</h3>
+          <p>Interprete análises de solo, determine a necessidade de calagem (V%), gessagem e dosagens N-P-K.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">⛰️</div>
+          <h3>Correção de Solo por Saturação</h3>
+          <p>Calcule o reequilíbrio de Ca, Mg e K no complexo sortivo do solo com base na CTC a pH 7,0.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">🍂</div>
+          <h3>Estimativa de Matéria Orgânica</h3>
+          <p>Estime a mineralização do nitrogênio orgânico e o aporte nutricional para a cultura subsequente.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+    </div>
+
+    <!-- TECNOLOGIA DE APLICAÇÃO -->
+    <h2 class="section-title" id="fitossanidade">Tecnologia de Aplicação</h2>
+    <div class="grid-apps">
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">🚜</div>
+          <h3>Calibração de Pulverizador</h3>
+          <p>Calcule o volume de calda (L/ha), vazão dos bicos (L/min) e velocidade ideal de trabalho do trator.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">💧</div>
+          <h3>Preparo e Mistura de Calda</h3>
+          <p>Determine as doses exatas de defensivos por tanque e a ordem correta de colocação dos produtos.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+    </div>
+
+    <!-- SEMENTES E PRODUÇÃO -->
+    <h2 class="section-title" id="graos">Sementes e Produtividade</h2>
+    <div class="grid-apps">
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">🌱</div>
+          <h3>Cálculo de Densidade de Semeadura</h3>
+          <p>Calcule a taxa de semeadura em kg/ha e sementes por metro linear com base no PMS e germinação.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">⚖️</div>
+          <h3>Estimativa de Produtividade</h3>
+          <p>Faça a estimativa de produtividade pré-colheita para soja, milho e feijão contando vagens/espigas.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div>
+          <div class="app-icon">🌾</div>
+          <h3>Perdas na Colheita Mecanizada</h3>
+          <p>Monitore e quantifique as perdas de grãos por hectare na plataforma e no sistema de trilha.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>
+
+    </div>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="container footer-wrap">
+      <div>🌱 <strong style="color: #FFF;">AgriCalc</strong> — Ferramentas para Agronomia</div>
+      <div>As ferramentas fornecem estimativas baseadas em tabelas técnicas. Consulte um Engenheiro Agrônomo.</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
