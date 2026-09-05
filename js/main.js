@@ -386,12 +386,37 @@ function configurarFormularioColaboracao() {
 }
 
 /* --------------------------------------------------------------------------
+   MENU HAMBÚRGUER (MOBILE)
+   -------------------------------------------------------------------------- */
+function configurarMenuMobile() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+
+  if (!menuToggle || !navMenu) return;
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
    INICIALIZAÇÃO
-   Roda depois que o DOM está pronto, e cada função já se protege caso os
-   elementos daquela página não existam — então é seguro rodar sempre.
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-  // Página de adubação: liga os selects de fonte à atualização de composição
+  // Configura menu mobile
+  configurarMenuMobile();
+
+  // Página de adubação
   ['fonteP', 'fonteK', 'fonteN', 'fonteMg'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', atualizarComposicoes);
