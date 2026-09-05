@@ -436,6 +436,25 @@ details[open] summary { margin-bottom: 14px; }
 .callout.warn { border-left-color: var(--color-alert); background: rgba(174, 65, 40, 0.07); }
 .callout.ok { border-left-color: var(--color-primary); background: rgba(46, 107, 69, 0.08); }
 
+/* Crédito de autoria da ferramenta */
+.credit-tag {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: rgba(46, 107, 69, 0.08);
+  color: var(--color-primary);
+  padding: 7px 16px;
+  border-radius: 20px;
+  margin: 2px 0 22px 0;
+  font-weight: 500;
+  border: 1px solid rgba(46, 107, 69, 0.16);
+}
+.credit-tag a { color: var(--color-text); font-weight: 700; text-decoration: none; }
+.credit-tag a:hover { text-decoration: underline; }
+
 /* Composições e subcabeçalhos */
 .composition { font-family: var(--font-mono); font-size: 12px; color: var(--color-primary); margin-top: 4px; font-weight: 500; }
 .subhead {
