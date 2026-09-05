@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contato — AgriCalc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="../index.html" class="brand">AgriCalc</a>
+      <nav>
+        <ul>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="colaborar.html">Colabore</a></li>
+          <li><a href="contato.html" aria-current="page">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a href="index.html" class="btn-back">← Voltar para o início</a>
+
+    <div class="app-header">
+      <h1>Fale com a gente</h1>
+      <p>Dúvida sobre uma calculadora, erro para reportar ou só um comentário — escreva pra gente.</p>
+    </div>
+
+    <div class="card">
+      <form id="formContato">
+        <div class="grid two">
+          <div>
+            <label for="ctNome">Nome</label>
+            <input type="text" id="ctNome" required>
+          </div>
+          <div>
+            <label for="ctEmail">E-mail</label>
+            <input type="email" id="ctEmail" required>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="ctAssunto">Assunto</label>
+          <select id="ctAssunto">
+            <option value="Dúvida sobre uma calculadora">Dúvida sobre uma calculadora</option>
+            <option value="Reportar um erro">Reportar um erro</option>
+            <option value="Sugestão">Sugestão</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="ctMensagem">Mensagem</label>
+          <textarea id="ctMensagem" required></textarea>
+        </div>
+
+        <div class="nav-row" style="justify-content: flex-end; margin-top: 18px;">
+          <button type="submit" class="btn">Enviar mensagem</button>
+        </div>
+      </form>
+      <p class="form-note">Ao enviar, seu aplicativo de e-mail padrão abre com a mensagem pronta para contato@agricalc.com.br.</p>
+    </div>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-logo">AgriCalc</div>
+          <p>Ferramentas técnicas gratuitas para quem trabalha no campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Ferramentas</h4>
+          <ul>
+            <li><a href="index.html#solo">Solo e Adubação</a></li>
+            <li><a href="index.html#fitossanidade">Tecnologia de Aplicação</a></li>
+            <li><a href="index.html#graos">Sementes e Produtividade</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Projeto</h4>
+          <ul>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="colaborar.html">Colabore com uma ferramenta</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AgriCalc</span>
+        <span>As ferramentas fornecem estimativas baseadas em tabelas técnicas. Consulte um Engenheiro Agrônomo.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

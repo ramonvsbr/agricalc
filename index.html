@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgriCalc — Calculadoras e Ferramentas Agronômicas</title>
+<title>AgriCalc: Calculadoras e Ferramentas Agronômicas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/global.css">
 </head>
 <body>
@@ -13,13 +13,12 @@
   <!-- CABEÇALHO -->
   <header>
     <div class="container nav-wrap">
-      <a href="index.html" class="brand">🌱 AgriCalc<span></span></a>
+      <a href="../index.html" class="brand">AgriCalc</a>
       <nav>
         <ul>
-          <li><a href="#solo">Solo & Nutrição</a></li>
-          <li><a href="#fitossanidade">Pulverização</a></li>
-          <li><a href="#graos">Sementes & Colheita</a></li>
-          <li><a href="#gestao">Gestão</a></li>
+          <li><a href="pages/sobre.html">Sobre</a></li>
+          <li><a href="pages/colaborar.html">Colabore</a></li>
+          <li><a href="pages/contato.html">Contato</a></li>
         </ul>
       </nav>
     </div>
@@ -28,7 +27,7 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="container">
-      <span class="hero-tag">⚡ Ferramentas de Precisão Agronômica</span>
+      <span class="hero-tag">🌱 Ferramentas Agronômicas</span>
       <h1>Decisões rápidas e precisas no campo.</h1>
       <p>Conjunto de calculadoras e simuladores agronômicos desenvolvidos para apoiar produtores, consultores e engenheiros agrônomos.</p>
 
@@ -69,9 +68,18 @@
 
     <!-- SOLO E NUTRIÇÃO -->
     <h2 class="section-title" id="solo">Solo e Adubação</h2>
-    <div class="grid-apps">
+    <div class="grid-apps" data-cat="solo">
 
-      <a href="apps/adubacao.html" class="app-card">
+      <a href="apps/correcao.html" class="app-card">
+        <div>
+<div class="app-icon">⛰️</div>
+<h3>Correção e Equilíbrio de Solo</h3>
+<p>Calcule a saturação por bases e o reequilíbrio de Ca, Mg e K no complexo sortivo.</p>
+        </div>
+        <span class="app-link">Acessar calculadora →</span>
+      </a>  
+
+      <a href="" class="app-card">
         <div>
           <div class="app-icon">🧪</div>
           <h3>Calculadora de Adubação e Calagem</h3>
@@ -80,14 +88,7 @@
         <span class="app-link">Acessar calculadora →</span>
       </a>
 
-      <a href="#" class="app-card">
-        <div>
-          <div class="app-icon">⛰️</div>
-          <h3>Correção de Solo por Saturação</h3>
-          <p>Calcule o reequilíbrio de Ca, Mg e K no complexo sortivo do solo com base na CTC a pH 7,0.</p>
-        </div>
-        <span class="app-link">Acessar calculadora →</span>
-      </a>
+
 
       <a href="#" class="app-card">
         <div>
@@ -102,7 +103,7 @@
 
     <!-- TECNOLOGIA DE APLICAÇÃO -->
     <h2 class="section-title" id="fitossanidade">Tecnologia de Aplicação</h2>
-    <div class="grid-apps">
+    <div class="grid-apps" data-cat="app">
 
       <a href="#" class="app-card">
         <div>
@@ -126,7 +127,7 @@
 
     <!-- SEMENTES E PRODUÇÃO -->
     <h2 class="section-title" id="graos">Sementes e Produtividade</h2>
-    <div class="grid-apps">
+    <div class="grid-apps" data-cat="seed">
 
       <a href="#" class="app-card">
         <div>
@@ -161,9 +162,33 @@
 
   <!-- RODAPÉ -->
   <footer>
-    <div class="container footer-wrap">
-      <div>🌱 <strong style="color: #FFF;">AgriCalc</strong> — Ferramentas para Agronomia</div>
-      <div>As ferramentas fornecem estimativas baseadas em tabelas técnicas. Consulte um Engenheiro Agrônomo.</div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-logo">AgriCalc</div>
+          <p>Ferramentas técnicas gratuitas para quem trabalha no campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Ferramentas</h4>
+          <ul>
+            <li><a href="index.html#solo">Solo e Adubação</a></li>
+            <li><a href="index.html#fitossanidade">Tecnologia de Aplicação</a></li>
+            <li><a href="index.html#graos">Sementes e Produtividade</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Projeto</h4>
+          <ul>
+            <li><a href="pages/sobre.html">Sobre</a></li>
+            <li><a href="pages/colaborar.html">Colabore com uma ferramenta</a></li>
+            <li><a href="pages/contato.html">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AgriCalc</span>
+        <span>As ferramentas fornecem estimativas baseadas em tabelas técnicas. Consulte um Engenheiro Agrônomo.</span>
+      </div>
     </div>
   </footer>
 

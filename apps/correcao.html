@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correção de Solo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="../index.html" class="brand">
+        AgriCalc<span></span></a>
+      <nav>
+        <ul>
+          <li><a href="pages/sobre.html">Sobre</a></li>
+          <li><a href="pages/colaborar.html">Colabore</a></li>
+          <li><a href="pages/contato.html">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <a href="../index.html" class="btn-back">← Voltar para todas as calculadoras</a>
+
+    <div class="app-header">
+      <h1>Calculadora de Adubação</h1>
+      <p>Interpreta o laudo do solo, calcula a correção pelo método do nível crítico (ou saturação por bases) e compara o custo entre fontes de adubo — o mesmo raciocínio da sua planilha de campo.</p>
+    </div>
+
+    <div class="example-bar">
+      <span class="ex-text">Quer ver a calculadora funcionando? Carregue o exemplo com um laudo já preenchido (Manga, Petrolina/PE).</span>
+      <button class="btn-sm fill" onclick="carregarExemplo()">Carregar exemplo</button>
+      <button class="btn-sm ghost-warn" onclick="limparExemplo()">Limpar exemplo</button>
+    </div>
+
+    <div class="mobile-step-indicator" id="mobileStepText">Etapa 1 de 4: Solo</div>
+
+    <div class="stepper">
+      <button class="step-btn active" onclick="irPara(1)" id="st-1">
+        <span class="step-num">Etapa 1</span>
+        <span class="step-lbl">Identificação e Solo</span>
+      </button>
+      <button class="step-btn" onclick="irPara(2)" id="st-2">
+        <span class="step-num">Etapa 2</span>
+        <span class="step-lbl">Metas de Correção</span>
+      </button>
+      <button class="step-btn" onclick="irPara(3)" id="st-3">
+        <span class="step-num">Etapa 3</span>
+        <span class="step-lbl">Fontes de Adubo</span>
+      </button>
+      <button class="step-btn" onclick="irPara(4)" id="st-4">
+        <span class="step-num">Etapa 4</span>
+        <span class="step-lbl">Resultado</span>
+      </button>
+    </div>
+
+    <!-- ETAPA 1 -->
+    <div class="panel active" data-panel="1">
+
+      <div class="card">
+        <h2>Identificação (opcional)</h2>
+        <p class="sub">Só aparece no relatório final — não entra em nenhum cálculo.</p>
+        <div class="grid">
+          <div class="field"><label>Produtor</label><input type="text" id="produtor"></div>
+          <div class="field"><label>Fazenda</label><input type="text" id="fazenda"></div>
+          <div class="field"><label>Município / Estado</label><input type="text" id="municipio"></div>
+          <div class="field"><label>Engenheiro(a) responsável</label><input type="text" id="engenheiro"></div>
+          <div class="field"><label>Cultura</label><input type="text" id="culturaNome" placeholder="ex.: Manga"></div>
+          <div class="field"><label>Talhão / Data</label><input type="text" id="talhaoData"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Análise Química do Solo</h2>
+        <p class="sub">Insira os valores do laudo do laboratório.</p>
+        <div class="grid">
+          <div class="field"><label>pH (H₂O ou CaCl₂)</label><input type="text" id="ph" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Matéria orgânica <span class="unit">g/dm³</span></label><input type="text" id="mo" oninput="atualizarTudo()"></div>
+          <div class="field"><label>P — fósforo <span class="unit">mg/dm³</span></label><input type="text" id="p" oninput="atualizarTudo()"></div>
+          <div class="field"><label>K — potássio <span class="unit">cmolc/dm³</span></label><input type="text" id="k" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Ca — cálcio <span class="unit">cmolc/dm³</span></label><input type="text" id="ca" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Mg — magnésio <span class="unit">cmolc/dm³</span></label><input type="text" id="mg" oninput="atualizarTudo()"></div>
+          <div class="field"><label>S — enxofre <span class="unit">mg/dm³</span></label><input type="text" id="s" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Na — sódio <span class="unit">cmolc/dm³</span></label><input type="text" id="na" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Al — alumínio <span class="unit">cmolc/dm³</span></label><input type="text" id="al" oninput="atualizarTudo()"></div>
+          <div class="field"><label>CTC a pH 7,0 <span class="unit">cmolc/dm³</span></label><input type="text" id="ctc" oninput="atualizarTudo()"></div>
+          <div class="field"><label>V% atual <span class="unit">saturação de bases</span></label><input type="text" id="vatual" oninput="atualizarTudo()"></div>
+          <div class="field"><label>CE — condutividade <span class="unit">dS/m</span></label><input type="text" id="ce" oninput="atualizarTudo()"></div>
+        </div>
+
+        <details open>
+          <summary>Textura e micronutrientes</summary>
+          <div class="grid" style="margin-top:12px;">
+            <div class="field"><label>Argila <span class="unit">%</span></label><input type="text" id="argila" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Silte <span class="unit">%</span></label><input type="text" id="silte" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Areia <span class="unit">%</span></label><input type="text" id="areia" oninput="atualizarTudo()"></div>
+          </div>
+          <div class="grid" style="margin-top:12px;">
+            <div class="field"><label>Zn — zinco <span class="unit">mg/dm³</span></label><input type="text" id="zn" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Mn — manganês <span class="unit">mg/dm³</span></label><input type="text" id="mn" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Fe — ferro <span class="unit">mg/dm³</span></label><input type="text" id="fe" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Cu — cobre <span class="unit">mg/dm³</span></label><input type="text" id="cu" oninput="atualizarTudo()"></div>
+            <div class="field"><label>B — boro <span class="unit">mg/dm³</span></label><input type="text" id="b" oninput="atualizarTudo()"></div>
+          </div>
+        </details>
+
+        <div id="niveis" class="callout">Preencha os campos para visualizar a classificação dos teores.</div>
+      </div>
+
+      <div class="nav-row">
+        <span></span>
+        <button class="btn" onclick="irPara(2)">Próximo: Metas de Correção →</button>
+      </div>
+    </div>
+
+    <!-- ETAPA 2 -->
+    <div class="panel" data-panel="2">
+
+      <div class="card">
+        <h2>Área e Cultura</h2>
+        <div class="grid two">
+          <div class="field"><label>Área a adubar <span class="unit">hectares</span></label><input type="text" id="area" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Regime</label>
+            <select id="regime">
+              <option value="sequeiro">Sequeiro</option>
+              <option value="irrigada">Irrigada</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Método de correção de Ca, Mg e K</h2>
+        <p class="sub">P é sempre corrigido pelo nível crítico. Para Ca, Mg e K, escolha entre elevar até um teor crítico fixo ou até um % alvo da CTC (saturação por bases).</p>
+        <div class="radio-row">
+          <label><input type="radio" name="metodo" value="nc" checked onchange="atualizarTudo()"> Nível crítico</label>
+          <label><input type="radio" name="metodo" value="sat" onchange="atualizarTudo()"> Saturação por bases (% da CTC)</label>
+        </div>
+        <div class="grid four">
+          <div class="field"><label>P crítico <span class="unit">mg/dm³</span></label><input type="text" id="critP" value="60" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Ca crítico <span class="unit">cmolc/dm³</span></label><input type="text" id="critCa" value="3,0" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Mg crítico <span class="unit">cmolc/dm³</span></label><input type="text" id="critMg" value="0,8" oninput="atualizarTudo()"></div>
+          <div class="field"><label>K crítico <span class="unit">cmolc/dm³</span></label><input type="text" id="critK" value="0,31" oninput="atualizarTudo()"></div>
+        </div>
+        <div class="grid four" style="margin-top:12px;">
+          <div class="field"><label>Ca alvo <span class="unit">% da CTC</span></label><input type="text" id="satCa" value="60" oninput="atualizarTudo()"></div>
+          <div class="field"><label>Mg alvo <span class="unit">% da CTC</span></label><input type="text" id="satMg" value="15" oninput="atualizarTudo()"></div>
+          <div class="field"><label>K alvo <span class="unit">% da CTC</span></label><input type="text" id="satK" value="5" oninput="atualizarTudo()"></div>
+          <div class="field"><label>V% alvo</label><input type="text" id="vAlvo" value="70" oninput="atualizarTudo()"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Metas Calculadas <span class="unit">(kg/ha)</span></h2>
+        <p class="sub">Preenchidas automaticamente a partir do solo e do método acima. N e S não vêm do laudo — informe a exigência da cultura.</p>
+        <div class="grid">
+          <div class="field"><label>P₂O₅ alvo <span class="unit">kg/ha</span></label><input type="text" id="p_ha" readonly></div>
+          <div class="field"><label>K₂O alvo <span class="unit">kg/ha</span></label><input type="text" id="k_ha" readonly></div>
+          <div class="field"><label>Ca alvo <span class="unit">kg/ha</span></label><input type="text" id="ca_ha" readonly></div>
+          <div class="field"><label>Mg alvo <span class="unit">kg/ha</span></label><input type="text" id="mg_ha" readonly></div>
+          <div class="field"><label>N alvo <span class="unit">kg/ha</span></label><input type="text" id="n_ha" value="0" oninput="atualizarTudo()"></div>
+          <div class="field"><label>S alvo <span class="unit">kg/ha</span></label><input type="text" id="s_ha" value="0" oninput="atualizarTudo()"></div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost" onclick="irPara(1)">← Voltar</button>
+        <button class="btn" onclick="irPara(3)">Próximo: Fontes de Adubo →</button>
+      </div>
+    </div>
+
+    <!-- ETAPA 3 -->
+    <div class="panel" data-panel="3">
+      <div class="card">
+        <h2>Fontes de Nutrientes</h2>
+        <p class="sub">Escolha a fonte preferida de cada nutriente. Composição (%) e preço (R$/kg) vêm pré-carregados e são editáveis — ajuste ao que você compra na região.</p>
+
+        <div class="subhead">Fósforo (P₂O₅)</div>
+        <div class="field"><label>Fonte de P₂O₅</label>
+          <select id="fonteP" onchange="atualizarTudo()"></select>
+          <div class="composition" id="compP"></div>
+        </div>
+
+        <div class="subhead">Potássio (K₂O)</div>
+        <div class="field"><label>Fonte de K₂O</label>
+          <select id="fonteK" onchange="atualizarTudo()"></select>
+          <div class="composition" id="compK"></div>
+        </div>
+
+        <div class="subhead">Nitrogênio (N)</div>
+        <div class="field"><label>Fonte de N</label>
+          <select id="fonteN" onchange="atualizarTudo()"></select>
+          <div class="composition" id="compN"></div>
+        </div>
+
+        <div class="subhead">Cálcio (Ca)</div>
+        <div class="field"><label>Fonte de Ca</label>
+          <select id="fonteCa" onchange="atualizarTudo()"></select>
+          <div class="composition" id="compCa"></div>
+        </div>
+
+        <div class="subhead">Magnésio (Mg)</div>
+        <div class="field"><label>Fonte de Mg</label>
+          <select id="fonteMg" onchange="atualizarTudo()"></select>
+          <div class="composition" id="compMg"></div>
+        </div>
+
+        <details open>
+          <summary>Micronutrientes (aplicação corretiva com base no laudo)</summary>
+          <div class="grid four" style="margin-top:12px;">
+            <div class="field"><label>Preço Sulf. Zinco <span class="unit">R$/kg</span></label><input type="text" id="precoZn" value="8" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Preço Sulf. Manganês <span class="unit">R$/kg</span></label><input type="text" id="precoMn" value="7" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Preço Sulf. Cobre <span class="unit">R$/kg</span></label><input type="text" id="precoCu" value="18" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Preço Bórax <span class="unit">R$/kg</span></label><input type="text" id="precoB" value="6" oninput="atualizarTudo()"></div>
+            <div class="field"><label>Preço Fe-EDTA <span class="unit">R$/kg</span></label><input type="text" id="precoFe" value="45" oninput="atualizarTudo()"></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn ghost" onclick="irPara(2)">← Voltar</button>
+        <button class="btn" onclick="atualizarTudo(); irPara(4)">Calcular Adubação →</button>
+      </div>
+    </div>
+
+    <!-- ETAPA 4 -->
+    <div class="panel" data-panel="4">
+      <div id="resultado"></div>
+      <div class="nav-row">
+        <button class="btn ghost" onclick="irPara(3)">← Ajustar Adubos</button>
+        <button class="btn ghost" onclick="irPara(1)">Nova Consulta</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container footer-wrap">
+      <div>🌱 <strong style="color:#fff;">AgriCalc</strong> — Ferramentas para Agronomia</div>
+      <div>Recomendações baseadas em tabelas nutricionais genéricas (método do nível crítico / saturação por bases). Para recomendação oficial e aplicação em campo, consulte um(a) Engenheiro(a) Agrônomo(a).</div>
+    </div>
+  </footer>
+
+<script>
+/* ---------- utilidades numéricas ---------- */
+function num(id){
+  const el = document.getElementById(id);
+  if(!el) return 0;
+  const raw = (el.value || '').toString().trim().replace(/\./g,'').replace(',', '.');
+  const v = parseFloat(raw);
+  return isNaN(v) ? 0 : v;
+}
+function fmt(v, dec){
+  dec = dec===undefined ? 1 : dec;
+  if(!isFinite(v)) v = 0;
+  return v.toLocaleString('pt-BR', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+}
+function tagClass(label){
+  const l = label.toLowerCase();
+  if(l==='alto'||l==='bom'||l==='alcalino') return 'alto';
+  if(l==='médio'||l==='medio') return 'medio';
+  if(l==='ácido'||l==='acido'||l==='ruim'||l==='salino'||l==='sódico'||l==='sodico') return 'alerta';
+  return 'baixo';
+}
+function tag(label){ return '<span class="badge '+tagClass(label)+'">'+label+'</span>'; }
+
+/* ---------- catálogo de fontes ---------- */
+const CATALOGO = {
+  P2O5: [
+    {id:'map', nome:'MAP — Fosfato Monoamônico', comp:48, extra:{N:11}, preco:5.2},
+    {id:'dap', nome:'DAP — Fosfato Diamônico', comp:45, extra:{N:16}, preco:5.6},
+    {id:'sfs', nome:'Superfosfato Simples', comp:20, extra:{Ca:18, S:10}, preco:2.4},
+    {id:'sft', nome:'Superfosfato Triplo', comp:41, extra:{Ca:12}, preco:4.4},
+  ],
+  K2O: [
+    {id:'kcl', nome:'Cloreto de Potássio (KCl)', comp:60, extra:{}, preco:3.6},
+    {id:'kcl_branco', nome:'KCl Branco', comp:60, extra:{}, preco:4.3},
+    {id:'sulfato_k', nome:'Sulfato de Potássio', comp:48, extra:{S:17}, preco:8.5},
+    {id:'nitrato_k', nome:'Nitrato de Potássio', comp:44, extra:{N:13}, preco:9.6},
+  ],
+  N: [
+    {id:'ureia', nome:'Ureia', comp:45, extra:{}, preco:2.8},
+    {id:'sulfato_amonio', nome:'Sulfato de Amônio', comp:21, extra:{S:24}, preco:2.2},
+    {id:'nitrato_ca', nome:'Nitrato de Cálcio', comp:15, extra:{Ca:19}, preco:6.0},
+    {id:'nitrato_mg', nome:'Nitrato de Magnésio', comp:11, extra:{Mg:9.5}, preco:8.8},
+  ],
+  Ca: [
+    {id:'gesso', nome:'Gesso Agrícola', comp:23, extra:{S:17}, preco:1.0},
+    {id:'nitrato_ca2', nome:'Nitrato de Cálcio', comp:19, extra:{N:15}, preco:6.0},
+    {id:'calcario', nome:'Calcário Calcítico (referência)', comp:32, extra:{}, preco:0.35},
+  ],
+  Mg: [
+    {id:'sulfato_mg', nome:'Sulfato de Magnésio', comp:9.5, extra:{S:13}, preco:4.8},
+    {id:'oxido_mg', nome:'Óxido de Magnésio', comp:55, extra:{}, preco:2.8},
+    {id:'nitrato_mg2', nome:'Nitrato de Magnésio', comp:9.5, extra:{N:11}, preco:8.8},
+  ],
+};
+const LABELS = {P2O5:'P₂O₅', K2O:'K₂O', N:'N', Ca:'Ca', Mg:'Mg', S:'S'};
+
+function popularSelects(){
+  const map = {fonteP:'P2O5', fonteK:'K2O', fonteN:'N', fonteCa:'Ca', fonteMg:'Mg'};
+  Object.entries(map).forEach(([selId, grp])=>{
+    const sel = document.getElementById(selId);
+    sel.innerHTML = CATALOGO[grp].map(p=>'<option value="'+p.id+'">'+p.nome+'</option>').join('');
+  });
+}
+
+function preencherComposicao(grp, selId, compDivId){
+  const sel = document.getElementById(selId);
+  const produto = CATALOGO[grp].find(p=>p.id===sel.value);
+  const div = document.getElementById(compDivId);
+  if(!produto){ div.innerHTML=''; return; }
+  let html = '<label>'+LABELS[grp]+' % <input type="text" data-comp="'+grp+'|'+produto.id+'|comp" value="'+produto.comp+'" onchange="atualizarTudo()"></label>';
+  Object.keys(produto.extra).forEach(k=>{
+    html += '<label>'+k+' % <input type="text" data-comp="'+grp+'|'+produto.id+'|'+k+'" value="'+produto.extra[k]+'" onchange="atualizarTudo()"></label>';
+  });
+  html += '<label>R$/kg <input type="text" data-comp="'+grp+'|'+produto.id+'|preco" value="'+produto.preco+'" onchange="atualizarTudo()"></label>';
+  div.innerHTML = html;
+}
+
+function valorOverride(grp, id, campo, padrao){
+  const el = document.querySelector('[data-comp="'+grp+'|'+id+'|'+campo+'"]');
+  if(!el) return padrao;
+  const raw = el.value.toString().trim().replace(',', '.');
+  const v = parseFloat(raw);
+  return isNaN(v) ? padrao : v;
+}
+
+/* ---------- classificações (laudo) ---------- */
+function classPH(v){ return v<=5.5?'Ácido': v>=7?'Alcalino':'Bom'; }
+function classMO(v){ return v>=31?'Alto': v<=15?'Baixo':'Médio'; }
+function classP(v){ return v>=31?'Alto': v<=13?'Baixo':'Médio'; }
+function classCa(v){ return v>=3?'Alto': v<=1.6?'Baixo':'Médio'; }
+function classMg(v){ return v>=0.8?'Alto': v<=0.4?'Baixo':'Médio'; }
+function classK(v){ return v>=0.31?'Alto': v<=0.16?'Baixo':'Médio'; }
+function classNa(v){ return v>=2?'Alto': v<=1?'Baixo':'Médio'; }
+function classCE(v){ return v>=4?'Salino': v<=2?'Baixo':'Médio'; }
+function classAl(v){ return v>=1?'Alto': v<=0.4?'Baixo':'Médio'; }
+function classS(v){ return v>=15?'Alto': v<=10?'Baixo':'Médio'; }
+function classSB(v){ return v>=6?'Alto': v<=2.6?'Baixo':'Médio'; }
+function classCTC(v){ return v>=8?'Alto': v<=4.1?'Baixo':'Médio'; }
+function classV(v){ return v>=71?'Alto': v<=51?'Baixo':'Médio'; }
+function classPST(v){ return v>=15?'Sódico': v<=5?'Baixo':'Médio'; }
+function classRatio(v, th){ return v>=th?'Bom':'Baixo'; }
+function classCaK(v){ return v>=5?'Bom':'Ruim'; }
+
+function classTextura(argila, areia){
+  if(argila>=60) return 'Argiloso';
+  if(areia>=70) return 'Arenoso';
+  return 'Médio';
+}
+
+/* micronutrientes: [classificação, dose sugerida] */
+function microZn(v){ return {c: v>=1.6?'Alto':v<=1?'Baixo':'Médio', dose: v>=2.2?0:(v<=1?6:3)}; }
+function microMn(v){ return {c: v>=9?'Alto':v<=6?'Baixo':'Médio', dose: v>=12?0:(v<=3?15:8)}; }
+function microCu(v){ return {c: v>=1.3?'Alto':v<=0.8?'Baixo':'Médio', dose: v>=1.8?0:(v<=0.4?3:2)}; }
+function microB(v){ return {c: v>=0.61?'Alto':v<=0.36?'Baixo':'Médio', dose: v>=0.9?0:(v<=0.16?3:2)}; }
+function microFe(v){ return {c: v>=31?'Alto':v<=19?'Baixo':'Médio', dose: v>=35?0:(v<=19?6:3)}; }
+
+/* ---------- navegação ---------- */
+function irPara(n){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('[data-panel="'+n+'"]').classList.add('active');
+  document.querySelectorAll('.step-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('st-'+n).classList.add('active');
+  const labels = ['Solo','Metas','Adubos','Resultado'];
+  document.getElementById('mobileStepText').textContent = 'Etapa '+n+' de 4: '+labels[n-1];
+  if(n===4){ renderResultado(); }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------- cálculo principal ---------- */
+function atualizarTudo(){
+  atualizarNiveis();
+  atualizarMetas();
+  atualizarComposicoes();
+  if(document.querySelector('[data-panel="4"]').classList.contains('active')){
+    renderResultado();
+  }
+}
+
+function atualizarComposicoes(){
+  preencherComposicao('P2O5','fonteP','compP');
+  preencherComposicao('K2O','fonteK','compK');
+  preencherComposicao('N','fonteN','compN');
+  preencherComposicao('Ca','fonteCa','compCa');
+  preencherComposicao('Mg','fonteMg','compMg');
+}
+
+function atualizarNiveis(){
+  const ph=num('ph'), mo=num('mo'), p=num('p'), k=num('k'), ca=num('ca'), mg=num('mg'),
+        s=num('s'), na=num('na'), al=num('al'), ctc=num('ctc'), ce=num('ce');
+
+  if(!ph && !p && !k && !ca && !mg && !ctc){
+    document.getElementById('niveis').innerHTML = 'Preencha os campos para visualizar a classificação dos teores.';
+    return;
+  }
+
+  const sb = ca+mg+k+na;
+  const pctCa = ctc>0 ? (ca/ctc)*100 : 0;
+  const pctMg = ctc>0 ? (mg/ctc)*100 : 0;
+  const pctK  = ctc>0 ? (k/ctc)*100 : 0;
+  const pst   = ctc>0 ? (na/ctc)*100 : 0;
+  const vAtual = num('vatual') || (ctc>0 ? (sb/ctc)*100 : 0);
+  const caMg = mg>0 ? ca/mg : 0;
+  const mgK = k>0 ? mg/k : 0;
+  const caMgK = k>0 ? (ca+mg)/k : 0;
+  const caK = k>0 ? ca/k : 0;
+
+  let html = '<div class="table-responsive"><table><tr><th>Atributo</th><th class="num">Valor</th><th>Classe</th><th>Atributo</th><th class="num">Valor</th><th>Classe</th></tr>';
+  const rows = [
+    ['pH', fmt(ph,1), classPH(ph), 'CTC (pH 7,0)', fmt(ctc,2), classCTC(ctc)],
+    ['M.O. (g/dm³)', fmt(mo,1), classMO(mo), 'V% atual', fmt(vAtual,1)+'%', classV(vAtual)],
+    ['P (mg/dm³)', fmt(p,1), classP(p), 'Ca/Mg', fmt(caMg,2), classRatio(caMg,3)],
+    ['K (cmolc/dm³)', fmt(k,2), classK(k), 'Mg/K', fmt(mgK,2), classRatio(mgK,3)],
+    ['Ca (cmolc/dm³)', fmt(ca,2), classCa(ca), '(Ca+Mg)/K', fmt(caMgK,2), classRatio(caMgK,10)],
+    ['Mg (cmolc/dm³)', fmt(mg,2), classMg(mg), 'Ca/K', fmt(caK,2), classCaK(caK)],
+    ['S (mg/dm³)', fmt(s,1), classS(s), 'Soma de Bases (SB)', fmt(sb,2), classSB(sb)],
+    ['Na (cmolc/dm³)', fmt(na,2), classNa(na), '%Ca / %Mg / %K da CTC', fmt(pctCa,1)+' / '+fmt(pctMg,1)+' / '+fmt(pctK,1), ''],
+    ['Al (cmolc/dm³)', fmt(al,2), classAl(al), 'PST', fmt(pst,1)+'%', classPST(pst)],
+    ['CE (dS/m)', fmt(ce,2), classCE(ce), 'Textura', classTextura(num('argila'),num('areia')), ''],
+  ];
+  rows.forEach(r=>{
+    html += '<tr><td>'+r[0]+'</td><td class="num">'+r[1]+'</td><td>'+(r[2]?tag(r[2]):'')+'</td>'+
+            '<td>'+r[3]+'</td><td class="num">'+r[4]+'</td><td>'+(r[5]?tag(r[5]):'')+'</td></tr>';
+  });
+  html += '</table></div>';
+  document.getElementById('niveis').innerHTML = html;
+}
+
+function calcularMetas(){
+  const p=num('p'), ca=num('ca'), mg=num('mg'), k=num('k'), ctc=num('ctc');
+  const critP=num('critP')||60, critCa=num('critCa')||3.0, critMg=num('critMg')||0.8, critK=num('critK')||0.31;
+  const satCa=num('satCa')||60, satMg=num('satMg')||15, satK=num('satK')||5;
+  const metodo = document.querySelector('input[name="metodo"]:checked').value;
+
+  const corrP = Math.max(0,(critP-p))*2;
+  const corrP2O5 = corrP*2.29;
+
+  const corrCaNC = Math.max(0,(critCa-ca))*400;
+  const corrMgNC = Math.max(0,(critMg-mg))*240;
+  const corrKNC  = Math.max(0,(critK-k))*780;
+  const corrK2ONC = corrKNC*1.2;
+
+  const corrCaSat = Math.max(0, ((satCa/100)*ctc - ca))*400;
+  const corrMgSat = Math.max(0, ((satMg/100)*ctc - mg))*240;
+  const corrKSat  = Math.max(0, ((satK/100)*ctc - k))*780;
+  const corrK2OSat = corrKSat*1.2;
+
+  const usarSat = metodo==='sat';
+  return {
+    P2O5: corrP2O5,
+    K2O: usarSat ? corrK2OSat : corrK2ONC,
+    Ca: usarSat ? corrCaSat : corrCaNC,
+    Mg: usarSat ? corrMgSat : corrMgNC,
+    ref: {corrCaNC, corrMgNC, corrKNC, corrCaSat, corrMgSat, corrKSat, usarSat}
+  };
+}
+
+function atualizarMetas(){
+  const m = calcularMetas();
+  document.getElementById('p_ha').value = fmt(m.P2O5,1);
+  document.getElementById('k_ha').value = fmt(m.K2O,1);
+  document.getElementById('ca_ha').value = fmt(m.Ca,1);
+  document.getElementById('mg_ha').value = fmt(m.Mg,1);
+}
+
+/* ---------- tabela de fontes / custo ---------- */
+function linhaProduto(grp, produto, alvoKgHa, area, selecionadoId){
+  const comp = valorOverride(grp, produto.id, 'comp', produto.comp);
+  const qtdHa = comp>0 ? (alvoKgHa*100)/comp : 0;
+  const custoHa = qtdHa * valorOverride(grp, produto.id, 'preco', produto.preco);
+  const extras = Object.keys(produto.extra).map(k=>{
+    const pctExtra = valorOverride(grp, produto.id, k, produto.extra[k]);
+    const kgHaExtra = qtdHa*pctExtra/100;
+    return k+': '+fmt(kgHaExtra,1)+' kg/ha';
+  }).join(' · ');
+  const selecionado = produto.id===selecionadoId;
+  return {
+    html: '<tr class="'+(selecionado?'selected':'')+'"><td>'+produto.nome+(selecionado?' <strong>(selecionada)</strong>':'')+'</td>'+
+      '<td class="num">'+fmt(qtdHa,1)+'</td>'+
+      '<td class="num">'+fmt(qtdHa*area,0)+'</td>'+
+      '<td>'+(extras||'—')+'</td>'+
+      '<td class="num">R$ '+fmt(custoHa,2)+'</td>'+
+      '<td class="num">R$ '+fmt(custoHa*area,2)+'</td></tr>',
+    qtdHa, custoHa, selecionado
+  };
+}
+
+function tabelaGrupo(grp, alvoKgHa, area, selId){
+  if(alvoKgHa<=0){
+    return {html:'<p class="callout">Meta de '+LABELS[grp]+' já atendida pelo solo — nenhuma correção necessária.</p>', selecionada:null};
+  }
+  const selecionadoId = document.getElementById(selId).value;
+  let head = '<div class="table-responsive"><table><tr><th>Fonte de '+LABELS[grp]+'</th><th class="num">kg/ha</th><th class="num">Total ('+fmt(area,0)+' ha)</th><th>Nutrientes extras</th><th class="num">R$/ha</th><th class="num">R$ total</th></tr>';
+  let body = '';
+  let selecionada = null;
+  CATALOGO[grp].forEach(prod=>{
+    const linha = linhaProduto(grp, prod, alvoKgHa, area, selecionadoId);
+    body += linha.html;
+    if(linha.selecionado) selecionada = linha;
+  });
+  return {html: head+body+'</table></div>', selecionada};
+}
+
+function renderResultado(){
+  const area = num('area')||1;
+  const m = calcularMetas();
+
+  let out = '';
+
+  out += '<div class="card"><h2>Resumo das Metas de Correção</h2><p class="sub">Método usado para Ca, Mg e K: <strong>'+(m.ref.usarSat?'Saturação por Bases':'Nível Crítico')+'</strong>. Valores em kg/ha e para a área total.</p>';
+  out += '<div class="kpi-row">';
+  [['P₂O₅', m.P2O5], ['K₂O', m.K2O], ['Ca', m.Ca], ['Mg', m.Mg]].forEach(([label,val])=>{
+    out += '<div class="kpi"><div class="k-label">'+label+'</div><div class="k-value">'+fmt(val,1)+' kg/ha</div></div>';
+  });
+  out += '</div>';
+  out += '<p class="sub" style="margin-top:10px;">Referência cruzada — Ca/Mg/K pelo outro método: nível crítico Ca '+fmt(m.ref.corrCaNC,1)+' · Mg '+fmt(m.ref.corrMgNC,1)+' · K₂O '+fmt(m.ref.corrKNC*1.2,1)+' kg/ha &nbsp;|&nbsp; saturação de bases Ca '+fmt(m.ref.corrCaSat,1)+' · Mg '+fmt(m.ref.corrMgSat,1)+' · K₂O '+fmt(m.ref.corrKSat*1.2,1)+' kg/ha.</p>';
+  out += '</div>';
+
+  let totalCusto = 0;
+  const grupos = [
+    ['P2O5', m.P2O5, 'fonteP'],
+    ['K2O', m.K2O, 'fonteK'],
+    ['N', num('n_ha'), 'fonteN'],
+    ['Ca', m.Ca, 'fonteCa'],
+    ['Mg', m.Mg, 'fonteMg'],
+  ];
+  grupos.forEach(([grp, alvo, selId])=>{
+    const t = tabelaGrupo(grp, alvo, area, selId);
+    out += '<div class="card"><h2>'+LABELS[grp]+'</h2>'+t.html+'</div>';
+    if(t.selecionada) totalCusto += t.selecionada.custoHa*area;
+  });
+
+  // micronutrientes
+  const micros = [
+    ['Zn', microZn(num('zn')), 'Sulfato de Zinco', num('precoZn')],
+    ['Mn', microMn(num('mn')), 'Sulfato de Manganês', num('precoMn')],
+    ['Cu', microCu(num('cu')), 'Sulfato de Cobre', num('precoCu')],
+    ['B', microB(num('b')), 'Bórax', num('precoB')],
+    ['Fe', microFe(num('fe')), 'Fe-EDTA', num('precoFe')],
+  ];
+  let microHtml = '<div class="table-responsive"><table><tr><th>Nutriente</th><th>Teor</th><th>Classe</th><th>Recomendação</th><th class="num">Total área</th><th class="num">R$ total</th></tr>';
+  let custoMicro = 0;
+  micros.forEach(([sym, r, produto, preco])=>{
+    const totalKg = r.dose*area;
+    const custo = totalKg*preco;
+    if(r.dose>0) custoMicro += custo;
+    microHtml += '<tr><td>'+sym+'</td><td class="num">'+fmt(num(sym.toLowerCase()),2)+' mg/dm³</td><td>'+tag(r.c)+'</td>'+
+      '<td>'+(r.dose>0 ? r.dose+' kg/ha de '+produto : 'Dispensa aplicação')+'</td>'+
+      '<td class="num">'+fmt(totalKg,0)+' kg</td>'+
+      '<td class="num">'+(r.dose>0?'R$ '+fmt(custo,2):'—')+'</td></tr>';
+  });
+  microHtml += '</table></div>';
+  out += '<div class="card"><h2>Micronutrientes</h2><p class="sub">Doses corretivas fixas conforme classe de teor do laudo.</p>'+microHtml+'</div>';
+  totalCusto += custoMicro;
+
+  out += '<div class="total-box"><div><div class="t-label">Custo estimado do plano de adubação · '+fmt(area,0)+' ha</div><div class="t-value">R$ '+fmt(totalCusto,2)+'</div></div>'+
+         '<div style="font-size:.85rem;color:#c9d6b8;max-width:280px;">Soma das fontes selecionadas em cada nutriente + micronutrientes recomendados. Preços são estimativas editáveis na Etapa 3.</div></div>';
+
+  document.getElementById('resultado').innerHTML = out;
+}
+
+/* ---------- exemplo ---------- */
+const EXEMPLO = {
+  produtor:'Valdemar dos Santos Rodrigues', fazenda:'R4Ni', municipio:'Petrolina, Pernambuco',
+  engenheiro:'Wylton Martins França', culturaNome:'Manga', talhaoData:'Talhão 1 · 18/06/2026',
+  ph:'6,8', mo:'31,54', p:'53,2', k:'0,25', ca:'2,4', mg:'0,8', s:'', na:'0,43', al:'0',
+  ctc:'7,37', vatual:'79', ce:'0,72', argila:'10', silte:'10', areia:'80',
+  zn:'17,9', mn:'26,4', fe:'196,2', cu:'0,6', b:'1,42', area:'5'
+};
+function carregarExemplo(){
+  Object.entries(EXEMPLO).forEach(([id,val])=>{
+    const el = document.getElementById(id);
+    if(el) el.value = val;
+  });
+  document.getElementById('regime').value = 'irrigada';
+  atualizarTudo();
+  irPara(1);
+}
+function limparExemplo(){
+  Object.keys(EXEMPLO).forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('area').value = '';
+  document.getElementById('regime').value = 'sequeiro';
+  document.getElementById('niveis').innerHTML = 'Preencha os campos para visualizar a classificação dos teores.';
+  ['p_ha','k_ha','ca_ha','mg_ha'].forEach(id=>document.getElementById(id).value='0,0');
+  document.getElementById('n_ha').value = '0';
+  document.getElementById('s_ha').value = '0';
+  document.getElementById('resultado').innerHTML = '';
+  irPara(1);
+}
+
+/* ---------- init ---------- */
+popularSelects();
+atualizarComposicoes();
+atualizarNiveis();
+atualizarMetas();
+</script>
+</body>
+</html>

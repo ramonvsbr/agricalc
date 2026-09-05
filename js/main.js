@@ -339,6 +339,53 @@ function calcular() {
 }
 
 /* --------------------------------------------------------------------------
+   FORMULÁRIO DE CONTATO — contato.html
+   Sem backend: monta um link "mailto:" com os dados preenchidos e deixa
+   o aplicativo de e-mail do usuário cuidar do envio.
+   -------------------------------------------------------------------------- */
+const EMAIL_DESTINO = 'contato@agricalc.com.br';
+
+function configurarFormularioContato() {
+  const form = document.getElementById('formContato');
+  if (!form) return; // só existe em contato.html
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('ctNome').value.trim();
+    const email = document.getElementById('ctEmail').value.trim();
+    const assunto = document.getElementById('ctAssunto').value;
+    const mensagem = document.getElementById('ctMensagem').value.trim();
+
+    const corpo = `Nome: ${nome}\nE-mail: ${email}\n\n${mensagem}`;
+    const link = `mailto:${EMAIL_DESTINO}?subject=${encodeURIComponent('[AgriCalc] ' + assunto)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = link;
+  });
+}
+
+/* --------------------------------------------------------------------------
+   FORMULÁRIO DE COLABORAÇÃO — colaborar.html
+   Mesma lógica do formulário de contato, com campos específicos para
+   sugestão de novas calculadoras.
+   -------------------------------------------------------------------------- */
+function configurarFormularioColaboracao() {
+  const form = document.getElementById('formColabora');
+  if (!form) return; // só existe em colaborar.html
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('colNome').value.trim();
+    const email = document.getElementById('colEmail').value.trim();
+    const ferramenta = document.getElementById('colFerramenta').value.trim();
+    const descricao = document.getElementById('colDescricao').value.trim();
+    const fonte = document.getElementById('colFonte').value.trim();
+
+    const corpo = `Nome: ${nome}\nE-mail: ${email}\nFerramenta sugerida: ${ferramenta}\n\nDescrição:\n${descricao}\n\nFonte técnica: ${fonte || 'Não informado'}`;
+    const link = `mailto:${EMAIL_DESTINO}?subject=${encodeURIComponent('[AgriCalc] Sugestão de ferramenta: ' + ferramenta)}&body=${encodeURIComponent(corpo)}`;
+    window.location.href = link;
+  });
+}
+
+/* --------------------------------------------------------------------------
    INICIALIZAÇÃO
    Roda depois que o DOM está pronto, e cada função já se protege caso os
    elementos daquela página não existam — então é seguro rodar sempre.
@@ -353,4 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarNiveis();
   carregarCultura();
   atualizarComposicoes();
+
+  configurarFormularioContato();
+  configurarFormularioColaboracao();
 });

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colabore — AgriCalc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="../index.html" class="brand">AgriCalc</a>
+      <nav>
+        <ul>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="colaborar.html" aria-current="page">Colabore</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a href="index.html" class="btn-back">← Voltar para o início</a>
+
+    <div class="app-header">
+      <h1>Ajude a construir novas ferramentas</h1>
+      <p>O AgriCalc cresce com quem usa as calculadoras no dia a dia. Se falta uma ferramenta que resolveria um problema real no seu trabalho, conte pra gente.</p>
+    </div>
+
+    <div class="card">
+      <h2>Como funciona</h2>
+      <p>Descreva a conta que você gostaria de ter automatizada e, se tiver, a referência técnica por trás dela. A sugestão entra em triagem e, se fizer sentido, segue para a fila de desenvolvimento.</p>
+    </div>
+
+    <div class="card">
+      <h2>Algumas ideias em aberto</h2>
+      <p class="sub">Só para inspirar — sua sugestão não precisa estar nessa lista.</p>
+      <ul style="padding-left: 18px; color: var(--color-muted); font-size: 14.5px; line-height: 1.8;">
+        <li>Dimensionamento de irrigação por gotejamento</li>
+        <li>Custo de produção por cultura e por hectare</li>
+        <li>Rotação de culturas e cobertura de solo</li>
+        <li>Cálculo de lotação animal em pastagem</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Envie sua sugestão</h2>
+      <form id="formColabora">
+        <div class="grid two">
+          <div>
+            <label for="colNome">Nome</label>
+            <input type="text" id="colNome" required>
+          </div>
+          <div>
+            <label for="colEmail">E-mail</label>
+            <input type="email" id="colEmail" required>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="colFerramenta">Qual ferramenta você gostaria de ver?</label>
+          <input type="text" id="colFerramenta" placeholder="Ex: Cálculo de lotação animal" required>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="colDescricao">Descreva o cálculo ou problema que ela resolveria</label>
+          <textarea id="colDescricao" required></textarea>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label for="colFonte">Fonte técnica de referência (opcional)</label>
+          <input type="text" id="colFonte" placeholder="Ex: boletim, manual, publicação">
+        </div>
+
+        <div class="nav-row" style="justify-content: flex-end; margin-top: 18px;">
+          <button type="submit" class="btn">Enviar sugestão</button>
+        </div>
+      </form>
+      <p class="form-note">Ao enviar, seu aplicativo de e-mail padrão abre com a sugestão pronta para contato@agricalc.com.br.</p>
+    </div>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-logo">AgriCalc</div>
+          <p>Ferramentas técnicas gratuitas para quem trabalha no campo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Ferramentas</h4>
+          <ul>
+            <li><a href="index.html#solo">Solo e Adubação</a></li>
+            <li><a href="index.html#fitossanidade">Tecnologia de Aplicação</a></li>
+            <li><a href="index.html#graos">Sementes e Produtividade</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Projeto</h4>
+          <ul>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="colaborar.html">Colabore com uma ferramenta</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AgriCalc</span>
+        <span>As ferramentas fornecem estimativas baseadas em tabelas técnicas. Consulte um Engenheiro Agrônomo.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
